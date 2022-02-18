@@ -4,22 +4,17 @@ from ursina.prefabs.first_person_controller import FirstPersonController
 app = Ursina()
 sky_texture = load_texture('assets/skybox')
 arm_texture = load_texture('')
-khontkar_texture = load_texture('assets\khontkar')
-kontt_texture = load_texture('assets\kontt')
 kont_ses = Audio('assets/kontses',loop = False, autoplay = False)
 block_pick = 1 
  
 
 def update():
-      global block_pick
+    global block_pick
 
-      if held_keys['left mouse'] or held_keys['right mouse']:
+    if held_keys['left mouse'] or held_keys['right mouse']:
         hand.active()
-      else:
+    else:
         hand.passive()    
-
-      if held_keys['1']: block_pick = 1
-      if held_keys['2']: block_pick = 2
 
 
 class Voxel(Button):
@@ -33,6 +28,16 @@ class Voxel(Button):
         color = color.white,
         highlight_color =  color.lime)
 
+class Voxel(Button):
+    def __init__(self, position = (0,0,0)):
+        super().__init__(
+        parent = scene,
+        position = position,
+        model = 'cube',
+        origin_y = 0.5,
+        texture = 'kont.kafa2',
+        color = color.white,
+        highlight_color =  color.lime)        
 
       
 
@@ -40,8 +45,7 @@ class Voxel(Button):
          if self.hovered:
              if key == 'left mouse down':
                  kont_ses.play()
-                 if block_pick == 1: voxel = Voxel(position = self.position + mouse.normal, texture = kontt_texture)
-                 if block_pick == 2: voxel = Voxel(position = self.position + mouse.normal, texture = khontkar_texture)
+                 voxel = Voxel(position = self.position + mouse.normal)
                  
              if key == 'right mouse down':
                  kont_ses.play()
@@ -87,6 +91,6 @@ for z in range(30):
 player = FirstPersonController()
 sky = Sky()        
 hand = Hand()
-#voxel = Voxel()
+voxel = Voxel()
 
 app.run()  
